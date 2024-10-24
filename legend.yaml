@@ -1,0 +1,887 @@
+openapi: 3.0.0
+info:
+  title: API Документация Легенда Жизни
+  description: Документация для API методов
+  version: 1.0.0
+servers:
+  - url: http://31.128.41.122/api
+    description: Production сервер
+tags:
+  - name: Legend of Life
+    description: Everything about your healthy life
+    externalDocs:
+      description: Find out more
+      url: https://www.777-777.org/
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Assignment:
+      type: object
+      properties:
+        assignmentNumber: # номер для отображения на экране
+          type: string
+          example: "111"
+        assignmentGuid:
+          type: string
+          example: "3d6b6ffb-103c-3405-9430-94c023871aa7"
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              guid:
+                type: string
+                example: "3d6b6ffb-103c-3405-9430-94c023871aa7"
+              date:
+                type: string
+                format: date-time
+                example: "2024-10-16 00:00:00"
+              address:
+                type: string
+                example: "434 Jamil Lock Apt. 259\nSouth Zoraland, ME 30846"
+              comment:
+                type: string
+                example: "Комментарий к поручению"
+              assignmentGuid:
+                type: string
+                example: "fefqwefwefefef"
+              zoneGuid:
+                type: string
+                example: "c9aaf33e-c729-3a83-8e34-44938061c93f"
+              crewGuid:
+                type: string
+                example: "0fe64eb4-a9c0-3a70-931a-519b05021089"
+              barcode:
+                type: string
+                example: "2213123121412412535351534"
+              assignmentNumber:
+                type: string
+                example: "111"
+              companyId:
+                type: string
+                example: "570971"
+              info:
+                type: string
+                example: "Molestiae et cum hic amet cum."
+              clientName:
+                type: string
+                example: "Myles Thompson V"
+              status:
+                type: integer
+                example: 1
+              paymentType:
+                type: integer
+                example: 7
+              amount:
+                type: number
+                format: float
+                example: 9489.50
+              start:
+                type: string
+                format: date-time
+                example: "2024-10-16 10:00:00"
+              end:
+                type: string
+                format: date-time
+                example: "2024-10-16 11:00:00"
+              contacts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    phone:
+                      type: string
+                      example: "1-240-577-5045"
+                    isCalled:
+                      type: boolean
+                      example: false
+              delay:
+                type: object
+                properties:
+                  timeDelay:
+                    type: integer
+                    example: 30
+                  descriptionGuid:
+                    type: string
+                    example: "ffafaq4124141rqf"
+                    description: "ID причины. Список причин получается по роуту delay-reasons"
+              movement:
+                type: boolean
+                example: false
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      example: "id1"
+                    characteristicGuid:
+                      type: string                      
+                      example: "7ea8a7a6-9a6c-3ed5-be9-0ac785d330ac"
+                    unitGuid:
+                      type: string
+                      example: "b5cfefe0-aa6c-3ee9-a379-ab609f782e20"
+                    count:
+                      type: integer
+                      example: 2
+                    price:
+                      type: number
+                      format: float
+                      example: 994.76
+                    priceTypeGuid:
+                      type: string
+                      example: "e2163936-19b8-37b7-80d6-43f3ecfcca5b"
+                    isDiscountAllowed:
+                      type: boolean
+                      example: true                     
+                      description: если у заказа isDiscountAllowed true, тогда проверяем это поле и делаем скидку на данный товар для физ лица
+                    fullname:
+                      type: string
+                      example: "Бутыль 19 л. полное наименование"
+                    shortname:
+                      type: string
+                      example: "Бутыль 19 л"                     
+                    gtin:
+                      type: string
+                      example: "0012345678905"
+                    isMarked:
+                      type: boolean
+                      example: false
+                    discountForUnit: 
+                      type: integer
+                      example: 10
+                      description: в рублях на каждую позицию
+                    manualDiscountForUnit: 
+                      type: integer
+                      example: 15
+                      description: в рублях на каждую позицию
+                    isPhotoRequired:
+                      type: boolean
+                      example: false
+                      description: нужно ли делать фото для возвратного товара
+              company:
+                type: object
+                properties:
+                  companyId:
+                    type: string
+                    example: "570971"
+                  kpp:
+                    type: string
+                    example: "440244452"
+                  fullname:
+                    type: string
+                    example: "Stroman LLC Group"
+                  shortname:
+                    type: string
+                    example: "Inc"
+                  email:
+                    type: string
+                    example: "valentin19@example.net"
+              isDiscountAllowed:
+                type: boolean
+                example: true
+                description: клиент физ лицо и зона подходит для скидки
+              isReturn:
+                type: boolean
+                example: false
+                description: если true, значит это заявка на возврат
+    Order:
+      type: object
+      required:
+        - status
+        - products
+      properties:
+        status:
+          type: integer
+          example: 2
+          description: Статус заказа (например, 2)
+        paymentType:
+          type: integer
+          example: 1
+          description: Тип оплаты (например, 1 — наличные)
+        isReturn:
+          type: boolean
+          example: true
+          description: передавать если возврат
+        amount:
+          type: number
+          format: float
+          example: 1200.50
+          description: Общая сумма заказа
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                description: Идентификатор продукта
+                example: "id1"
+              countFinal:
+                type: number
+                description: Фактическое количество проданных или возвращённых позиций
+                example: 2
+              price:
+                type: number
+                format: float
+                description: Цена за единицу товара списка товаров на продажу
+                example: 994.76
+              marks:
+                type: array
+                description: Массив марок товаров (если применимо)
+                items:
+                  type: string
+                example: ["mark1", "mark2"]
+              discountForUnit:
+                type: number
+                example: 20
+                description: значение value из маршрута discount 
+    OrderUpdate:
+      type: object
+      required:
+        - guid
+        - status
+        - products
+      properties:
+        guid:
+          type: string
+          example: 1873135jnbbfi29f24r93r
+        status:
+          type: number
+          description: Статус заказа, должен быть 2 (отработан). Водитель не имеет возможности отменять заказ
+          example: 2
+        paymentType:
+          type: number
+          description: "Тип оплаты (например, 1 — наличные). Для возвратов можно не передавать"
+          example: 1
+        amount:
+          type: number
+          format: float
+          description: "Общая итоговая сумма заказа (может быть с копейками). Для возвратов не передаётся"
+          example: 1200.50
+        products:
+          type: array
+          description: "Список товаров, которые были проданы или возвращены"
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                description: "Идентификатор продукта"
+                example: "id1"
+              countFinal:
+                type: integer
+                description: "Количество фактически проданных или возвращённых товаров"
+                example: 3
+              price:
+                type: number
+                format: float
+                description: "Цена товара. Может различаться в зависимости от акций или подарочнпозиций"
+                example: 50.00
+              marks:
+                type: array
+                description: "Массив отсканированных марок товаров. Для возвратов массив пуст"
+                items:
+                  type: string
+                example: []
+              discountForUnit:
+                type: number
+                example: 20
+                description: если для юр лица, то вставить, что было передано с бека c заказом, если физ лицо и скидка была вставить значение value из маршрута discount
+         
+  
+security:
+  - bearerAuth: []
+  
+paths:
+  /login:
+    get:
+      tags:
+        - Аутентификация
+      summary: Авторизация пользователей
+      description: Выполняет аутентификацию пользователя
+      parameters:
+        - in: query
+          name: login
+          schema:
+            type: string
+          required: true
+          description: Логин пользователя
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+          description: Пароль пользователя
+      responses:
+        '200':
+          description: Successful sign in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Вход выполнен успешно
+                  user:
+                    type: string
+                    example: Duncan Runolfsson
+                  token:
+                    type: string
+                    example: 1|sILSjsZfo0h49OTzcpEsUkgMMxJJKq61zUhjnlyd77a4479c
+        default:
+          description: Все нестандартные ошибки
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                    example: Error
+                    
+  /restart:
+    get:
+      tags:
+        - Перезагрузка данных
+      description: Пересоздаёт все данные, обновляет даты
+      responses:
+        '200':
+          description: Данные успешно обновлены
+          
+  /shifts:
+    get:
+      tags:
+        - Смены
+      summary: Получение смен
+      description: Возвращает список смен
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    start:
+                      type: string
+                      format: date-time
+                      example: '2024-10-10 09:00:00'
+                    end:
+                      type: string
+                      format: date-time
+                      example: '2024-10-10 11:00:00'
+                    assignmentsTotal:
+                      type: integer
+                      example: 1
+        '400':
+          description: Invalid status value
+      security:
+        - bearerAuth: []  
+        
+  /assignments:
+    get:
+      tags:
+        - Поручения
+      summary: Получение Списка Поручений
+      description: Возвращает массив поручений по сменам
+      parameters:
+        - in: query
+          name: shiftId
+          schema:
+            type: integer
+          required: true
+          description: Идентификатор смены, для которой требуется получить поручения
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/Assignment"  # Ссылка на определение схемы Assignment
+      security:
+        - bearerAuth: []
+        
+  /assignments/{guid}:
+    get:
+      tags:
+        - Поручения
+      summary: Получение Поручения
+      description: Возвращает поручение по его `assignmentGuid`
+      parameters:
+        - in: path
+          name: guid
+          required: true
+          schema:
+            type: string
+          description: Идентификатор поручения (assignmentGuid)
+      responses:
+        '200':
+          description: Успешный ответ с поручением
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+        '404':
+          description: Поручение не найдено
+        '400':
+          description: Некорректный запрос
+      security:
+        - bearerAuth: []
+  
+  /products:
+    get:
+      tags:
+        - Товары для продажи с колёс
+      summary: Справочник товаров 
+      description: Возвращает справочник товаров для продажи с колес
+      responses:
+        '200':
+          description: Успешный ответ с товарами для продажи с колес
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      example: "id2"
+                    price:
+                      type: number
+                      format: float
+                      example: 994.76
+                    fullname:
+                      type: string
+                      example: "Бутыль 19 л. полное наименование"
+                    shortname:
+                      type: string
+                      example: "Бутыль 19 л"
+                    gtin:
+                      type: string
+                      example: "0012345678905"
+                    isMarked:
+                      type: boolean
+                      example: false
+                    isDiscountAllowed: 
+                      type: boolean
+                      example: true
+                      description: определяет, подходит ли зона экипажа для скидки и есть ли этот товар в скидочном списке
+        '404':
+          description: Поручение не найдено
+        '400':
+          description: Некорректный запрос
+      security:
+        - bearerAuth: []
+  
+  /discount:
+    get:
+      tags:
+        - Скидки
+      summary: Получение информации о скидке для физических лиц
+      description: Возвращает информацию о скидке для физических лиц. Содержит минимальное количество товаров для применения скидки и величину скидки на одну позицию.
+      responses:
+        '200':
+          description: Успешный ответ с информацией о скидке
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quantity:
+                    type: integer
+                    description: Минимальное количество позиций товара для применения скидки
+                    example: 5
+                  value:
+                    type: integer
+                    description: Величина скидки в рублях на каждую позицию товара
+                    example: 100
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '500':
+          description: Внутренняя ошибка сервера
+      security:
+       - bearerAuth: []
+
+    
+  /orders:
+    post:
+      tags:
+        - Заказы
+      summary: Создание нового Заказа/Заявки на возврат (кулера, бутылей с водой, другого оборудования) 
+      description: Создает новый заказ или заявки на возврат (для продажии с колес) 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Заказ успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Заказ успешно создан"
+                  orderId:
+                    type: string
+                    description: Идентификатор заказа
+                    example: "id12345"
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '500':
+          description: Ошибка сервера
+      security:
+        - bearerAuth: []
+  
+  /orders-all:
+    post:
+      tags:
+        - Заказы
+      summary: Массовое Создание Заказов/Заявок на возврат (кулера, бутылей с водой, другого оборудования) 
+      description: Создает массово новые заказы или заявки на возврат (для продажии с колес)   
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Order'  # Ссылка на схему заказа
+      responses:
+        '201':
+          description: Заказы успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Массовое создание заказов успешно завершено"
+                  orderIds:
+                    type: array
+                    items:
+                      type: string
+                    example: ["id12345", "id67890"]
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '500':
+          description: Ошибка сервера
+      security:
+        - bearerAuth: [] 
+  
+  /orders/{guid}:
+    post:
+      tags:
+        - Заказы
+      summary: Обновление Заказа/Заявки на возврат (кулера, бутылей с водой, другого оборудования) 
+      parameters:
+      - name: guid
+        in: path
+        required: true
+        description: Уникальный идентификатор заказа (guid)
+        schema:
+          type: string
+          example: "id12345"
+    
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderUpdate' # Ссылка на обновление заказа  
+
+      responses:
+        '200':
+          description: Заказ успешно обновлён
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Заказ успешно обновлён"
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '404':
+          description: Заказ не найден
+        '500':
+          description: Ошибка сервера
+      security:
+        - bearerAuth: []
+  
+  /orders-update-all:
+    post:
+      tags:
+        - Заказы
+      summary: Массовое обновление Заказов/Заявок на возврат (кулера, бутылей с водой, другого оборудования) 
+      description: Обновляет массово заказы или заявки на возврат (для продажии с колес)   
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderUpdate'  # Ссылка на схему обновления заказа
+      responses:
+        '200':
+          description: Заказы успешно обновлены
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Массовое обновление заказов успешно завершено"
+                  orderIds:
+                    type: array
+                    description: Идентификаторы успешно обновленных заказов
+                    items:
+                      type: string
+                    example: ["id12345", "id67890"]
+                  failedOrderIds: 
+                    type: array
+                    description: Идентификаторы заказов, которые не удалось обновить
+                    items:
+                      type: string
+                    example: ["id54321", "id09876"]
+        '207':
+          description: Частичное обновление. Некоторые заказы были обновлены успешно, но обновление других завершилось неудачей.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Частичное обновление завершено с ошибками"
+                  orderIds:
+                    type: array
+                    description: Идентификаторы успешно обновленных заказов
+                    items:
+                      type: string
+                    example: ["id12345", "id67890"]
+                  failedOrderIds: 
+                    type: array
+                    description: Идентификаторы заказов, которые не удалось обновить
+                    items:
+                      type: string
+                    example: ["id54321", "id09876"]
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Некорректные параметры запроса"
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Неавторизован"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Ошибка сервера"
+      security:
+        - bearerAuth: [] 
+
+  /delay-reasons:
+    get:
+      tags:
+        - Опоздания
+      summary: Получение списка причин опоздания
+      description: Возвращает список возможных причин опоздания, таких как пробки, погодные условия и другие.
+      responses:
+        '200':
+          description: Успешный ответ с причинами опоздания
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    guid:
+                      type: string
+                      example: "1d76fff2-f63a-3ea3-844a-d3cdff41e631"
+                      description: Уникальный идентификатор причины
+                    name:
+                      type: string
+                      example: "Пробки"
+                      description: Краткое название причины
+                    description:
+                      type: string
+                      example: "Застрял в пробках"
+                      description: Подробное описание причины опоздания
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Неавторизован"
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Ошибка сервера"
+      security:
+        - bearerAuth: []
+        
+  /orders/{guid}/delay:
+    post:
+      tags:
+        - Заказы
+      summary: Уведомление об опоздании
+      description: Уведомляет систему о задержке прибытия на заказ. В теле запроса необходимо указать причину задержки и время задержки в минутах.
+      parameters:
+        - name: guid
+          in: path
+          required: true
+          description: Уникальный идентификатор заказа (GUID)
+          schema:
+            type: string
+            example: "31d3fbc4-4f95-48d7-b6eb-9c219b7c0974"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                descriptionGuid:
+                  type: string
+                  description: Уникальный идентификатор причины опоздания (полученный из метода получения причин опоздания)
+                  example: "1d76fff2-f63a-3ea3-844a-d3cdff41e631"
+                timeDelay:
+                  type: integer
+                  description: Время задержки в минутах
+                  example: 30
+      responses:
+        '200':
+          description: Уведомление об опоздании успешно отправлено
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Уведомление об опоздании отправлено"
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '404':
+          description: Заказ не найден
+        '500':
+          description: Внутренняя ошибка сервера
+      security:
+        - bearerAuth: []
+
+  /orders/{guid}/movement:
+    post:
+      tags:
+        - Заказы
+      summary: Уведомление о выезде на заказ
+      description: Уведомляет систему о том, что водитель выехал на заказ. Это действие переводит заказ в   состояние обработки.
+      parameters:
+        - name: guid
+          in: path
+          required: true
+          description: Уникальный идентификатор заказа (GUID)
+          schema:
+            type: string
+            example: "31d3fbc4-4f95-48d7-b6eb-9c219b7c0974"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inProcess:
+                  type: boolean
+                  description: Флаг, указывающий, что водитель выехал на заказ
+                  example: true
+      responses:
+        '200':
+          description: Уведомление о выезде на заказ успешно отправлено
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Уведомление о выезде на заказ отправлено"
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Неавторизован
+        '404':
+          description: Заказ не найден
+        '500':
+          description: Внутренняя ошибка сервера
+      security:
+        - bearerAuth: []
+      
+        
