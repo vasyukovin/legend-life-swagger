@@ -883,7 +883,7 @@ paths:
           description: Внутренняя ошибка сервера
       security:
         - bearerAuth: []
- /upload:
+  /upload:
     post:
       tags:
         - Загрузка фото
