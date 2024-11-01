@@ -49,6 +49,10 @@ components:
               assignmentGuid:
                 type: string
                 example: "fefqwefwefefef"
+              hasIndividualDiscount:
+                type: boolean
+                example: false
+                description: Является физ лицом
               zoneGuid:
                 type: string
                 example: "c9aaf33e-c729-3a83-8e34-44938061c93f"
