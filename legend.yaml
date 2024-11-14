@@ -22,12 +22,25 @@ components:
     Assignment:
       type: object
       properties:
-        assignmentNumber: # номер для отображения на экране
+        assignmentNumber:
           type: string
           example: "111"
         assignmentGuid:
           type: string
           example: "3d6b6ffb-103c-3405-9430-94c023871aa7"
+        delay:
+          type: object
+          properties:
+            timeDelay:
+              type: integer
+              example: 30
+            descriptionGuid:
+              type: string
+              example: "ffafaq4124141rqf"
+              description: "ID причины. Список причин получается по роуту delay-reasons"
+        movement:
+          type: boolean
+          example: false
         orders:
           type: array
           items:
@@ -103,24 +116,14 @@ components:
                     isCalled:
                       type: boolean
                       example: false
-              delay:
-                type: object
-                properties:
-                  timeDelay:
-                    type: integer
-                    example: 30
-                  descriptionGuid:
-                    type: string
-                    example: "ffafaq4124141rqf"
-                    description: "ID причины. Список причин получается по роуту delay-reasons"
-              movement:
-                type: boolean
-                example: false
               products:
                 type: array
                 items:
                   type: object
                   properties:
+                    id:
+                      type: number
+                      example: 3
                     productId:
                       type: string
                       example: "id1"
