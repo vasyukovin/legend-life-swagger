@@ -197,6 +197,10 @@ components:
                 type: boolean
                 example: false
                 description: если true, значит это заявка на возврат
+              isfactory:
+                type: boolean
+                example: true
+                description: условие для понимания какой чек печатать
     Order:
       type: object
       required:
