@@ -87,6 +87,9 @@ components:
               clientName:
                 type: string
                 example: "Myles Thompson V"
+              clientEmail:
+                type: string
+                example: 'example@gmail.com'
               status:
                 type: integer
                 example: 1
@@ -401,6 +404,12 @@ paths:
                     assignmentsTotal:
                       type: integer
                       example: 1
+                    isfactory:
+                      type: boolean
+                      example: true
+                    companyId:
+                      type: string
+                      example: '2223585438'
         '400':
           description: Invalid status value
       security:
