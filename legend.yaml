@@ -242,18 +242,16 @@ components:
               countFinal:
                 type: number
                 description: Фактическое количество проданных или возвращённых позиций
-                example: 2
+                example: 1
               price:
                 type: number
                 format: float
                 description: Цена за единицу товара списка товаров на продажу
                 example: 994.76
-              marks:
-                type: array
-                description: Массив марок товаров (если применимо)
-                items:
-                  type: string
-                example: ["mark1", "mark2"]
+              mark:
+                type: string
+                description: Марка товара
+                example: "mark1"
               discountForUnit:
                 type: number
                 example: 20
@@ -300,12 +298,10 @@ components:
                 format: float
                 description: "Цена товара. Может различаться в зависимости от акций или подарочнпозиций"
                 example: 50.00
-              marks:
-                type: array
-                description: "Массив отсканированных марок товаров. Для возвратов массив пуст"
-                items:
-                  type: string
-                example: []
+              mark:
+                type: string
+                description: Марка товара
+                example: ""
               discountForUnit:
                 type: number
                 example: 20
@@ -923,8 +919,11 @@ paths:
                     type: string
                     format: binary
                     description: Фото для загрузки
+                  orderProductId: 
+                    type: integer
                 required:
                   - file
+                  - orderProductId
         responses:
           '201':
             description: Успешный ответ со ссылкой на фото
@@ -939,3 +938,38 @@ paths:
                     url:
                       type: string
                       example: "http://31.128.41.122/storage/photos/2024-10-29/6MkZn4TFeYwrCAXxJp4XqF2og1jCgS8Mrb1nJHqc.png"
+  /upload-all:
+      post:
+        tags:
+          - Загрузка фото
+        summary: Загрузка фото возвратов
+        description: Загрузка фото для заявок на возврат
+        requestBody:
+          required: true
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    description: Фото для загрузки
+                  orderProductId: 
+                    type: integer
+                required:
+                  - files
+                  - orderProductId
+        responses:
+          '201':
+            description: Успешный ответ со ссылкой на фото
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "Фото загружено"
+                    urls:
+                      type: array
+                      example: ["http://31.128.41.122/storage/photos/2024-10-29/312231312.png", "http://31.128.41.122/storage/photos/2024-10-29/553626334.png"]
