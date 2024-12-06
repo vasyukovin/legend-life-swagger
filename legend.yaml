@@ -400,7 +400,7 @@ paths:
                     priceTypeGuid: 
                       type: string
                       example: "fbe5c33c-3ffe-35cb-945b-57c2753d0c9a"
-                    priceTypeGuid: 
+                    price: 
                       type: integer
                       example: 500
                       
