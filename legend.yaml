@@ -372,7 +372,38 @@ paths:
       responses:
         '200':
           description: Данные успешно обновлены
-          
+
+  /packages:
+    get:
+      tags:
+        - Возвратная тара
+      summary: Получение возвратной тары с ценами
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      example: "00012312-312"
+                    shortname: 
+                      type: string
+                      example: "Бутыль 19л."
+                    fullname: 
+                      type: string
+                      example: ""
+                    priceTypeGuid: 
+                      type: string
+                      example: "fbe5c33c-3ffe-35cb-945b-57c2753d0c9a"
+                    priceTypeGuid: 
+                      type: integer
+                      example: 500
+                      
   /shifts:
     get:
       tags:
@@ -409,6 +440,9 @@ paths:
                     companyId:
                       type: string
                       example: '2223585438'
+                    priceTypeGuid:
+                      type: string
+                      example: "cd94e5fd-2ebd-11ef-8567-04421aca9e87"
         '400':
           description: Invalid status value
       security:
