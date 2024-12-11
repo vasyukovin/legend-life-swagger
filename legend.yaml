@@ -256,6 +256,34 @@ components:
                 type: number
                 example: 20
                 description: значение value из маршрута discount 
+    Chat:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        userId:
+          type: integer
+          example: 249
+        assignmentGuid:
+          type: string
+          example: "43e80b55-feec-357b-9771-df3f1cb6ffc7"
+        assignmentNumber:
+          type: string
+          example: "000414114"
+        date:
+          type: string
+          example: "2024-12-10T12:01:32+00:00"
+        isRead:
+          type: boolean
+          example: false
+        isIncoming:
+          type: boolean
+          example: true
+          description: Если true то сообщение из 1С, если false значит от водителя из приложения
+        message:
+          type: string
+          example: "Постучитесь"
     OrderUpdate:
       type: object
       required:
@@ -1028,30 +1056,47 @@ paths:
             content:
               application/json:
                 schema:
+                  $ref: "#/components/schemas/Chat"
+
+  /chat_list:
+      get:
+        tags:
+          - Чат
+        summary: Список чатов пользователя
+        responses:
+          '200':
+            description: Список чатов
+            content:
+              application/json:
+                schema:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 2
-                      userId:
-                        type: integer
-                        example: 249
-                      assignmentGuid:
-                        type: string
-                        example: "43e80b55-feec-357b-9771-df3f1cb6ffc7"
-                      date:
-                        type: string
-                        example: "2024-12-10T12:01:32+00:00"
-                      isIncoming:
-                        type: boolean
-                        example: true
-                        description: Если true то сообщение из 1С, если false значит от водителя из приложения
-                      message:
-                        type: string
-                        example: "Постучитесь"
+                    $ref: "#/components/schemas/Chat"
                    
+  /chat_read/{id}:
+    post:
+      tags:
+        - Чат
+      summary: Пометить прочитанным
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id сообщения
+        schema:
+          type: integer
+          example: 3
+      responses:
+        '200':
+          description: Сообщение прочитано
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Сообщение прочитано"
 
   /chat_send:
       post:
