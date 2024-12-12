@@ -1134,11 +1134,7 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                      example: "Сообщение отправлено"
+                  $ref: "#/components/schemas/Chat"
   /1c/chat:
       post:
         tags:
