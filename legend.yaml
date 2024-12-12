@@ -287,6 +287,10 @@ components:
         message:
           type: string
           example: "Постучитесь"
+        unread:
+          type: integer
+          nullable: true
+          example: 5
     OrderUpdate:
       type: object
       required:
