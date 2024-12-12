@@ -271,6 +271,9 @@ components:
         assignmentNumber:
           type: string
           example: "000414114"
+        crewGuid:
+          type: string
+          example: "3123123-feec-357b-9771-df3f1cb6ffc7"
         date:
           type: string
           example: "2024-12-10T12:01:32+00:00"
