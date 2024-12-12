@@ -1080,19 +1080,21 @@ paths:
                   items:
                     $ref: "#/components/schemas/Chat"
                    
-  /chat_read/{id}:
+  /chat_read:
     post:
       tags:
         - Чат
       summary: Пометить прочитанным
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Id сообщения
-        schema:
-          type: integer
-          example: 3
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ids: 
+                    type: array
+                    example: [4, 6, 9]
       responses:
         '200':
           description: Сообщение прочитано
@@ -1103,7 +1105,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Сообщение прочитано"
+                    example: "Сообщения прочитаны"
 
   /chat_send:
       post:
