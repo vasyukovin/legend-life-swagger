@@ -177,6 +177,10 @@ components:
                     series: 
                       type: string
                       example: '01009504'
+                    returnProductId:
+                      type: string
+                      example: '00-3123115'
+                      descriprion: productId тары
               company:
                 type: object
                 properties:
